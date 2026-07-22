@@ -127,7 +127,7 @@ or, via Docker Compose:
 
 ```bash
 docker compose run --rm test
+```
 
 ## License
-
 MIT
