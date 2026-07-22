@@ -1,0 +1,71 @@
+services:
+  redis:
+    image: redis:7
+    container_name: booking_redis
+    restart: unless-stopped
+    networks:
+      - myNetwork
+
+  booking_back_service:
+    container_name: booking_back
+    build:
+      context: .
+    ports:
+      - "7777:8000"
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - myNetwork
+
+  booking_celery_worker_service:
+    container_name: booking_celery_worker
+    build:
+      context: .
+    env_file:
+      - .env
+    command: celery --app=src.tasks.celery_app:celery_instance worker -l INFO
+    depends_on:
+      - redis
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - myNetwork
+
+  booking_celery_beat_service:
+    container_name: booking_celery_beat
+    build:
+      context: .
+    env_file:
+      - .env
+    command: celery --app=src.tasks.celery_app:celery_instance beat -l INFO
+    depends_on:
+      - redis
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - myNetwork
+
+  test:
+    container_name: booking_test
+    build:
+      context: .
+    env_file:
+      - .env
+    command: pytest
+    depends_on:
+      - redis
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - myNetwork
+
+networks:
+  myNetwork:
+    external: true

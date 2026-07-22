@@ -1,0 +1,30 @@
+[
+    {
+        "coworking_id": 1,
+        "title": "With view",
+        "description": "good one",
+        "price": 24500,
+        "quantity": 5
+    },
+    {
+        "coworking_id": 1,
+        "title": "Lux",
+        "description": "the best",
+        "price": 22450,
+        "quantity": 10
+    },
+    {
+        "coworking_id": 2,
+        "title": "Hard worker",
+        "description": "for hard workers",
+        "price": 4570,
+        "quantity": 15
+    },
+    {
+        "coworking_id": 3,
+        "title": "Group table",
+        "description": null,
+        "price": 4350,
+        "quantity": 8
+    }
+]
